@@ -40,4 +40,7 @@ public class Post {
     )
     private List<User> likeByUser;
 
+
+    private String imageCover; //sonra karar verilecek
+
 }
