@@ -19,7 +19,9 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column( nullable = true)
     private String content;
+
     private LocalDateTime date;
     private String image;
     private boolean deleted;

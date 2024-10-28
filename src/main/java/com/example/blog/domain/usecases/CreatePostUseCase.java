@@ -8,7 +8,8 @@ import com.example.blog.domain.interfaces.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.util.Date;
+
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -24,7 +25,7 @@ public class CreatePostUseCase {
         Post post = new Post();
         post.setContent(content);
         post.setAuthor(user);
-        post.setCreateTime(new Date());
+        post.setDate(LocalDateTime.now());
 
         return postRepository.save(post);
     }

@@ -25,10 +25,10 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column( nullable = false)
     private String name;
 
-    @Column(nullable = false)
+    @Column( nullable = false)
     private String surname;
 
     @Column(unique = true, nullable = false)
@@ -43,7 +43,7 @@ public class User {
     @Column
     private String bigpicture;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String about;
 
     @Column(nullable = false)
