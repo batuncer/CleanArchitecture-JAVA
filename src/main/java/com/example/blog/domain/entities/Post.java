@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -14,33 +15,23 @@ import java.util.List;
 @Entity
 @Table(name ="posts")
 public class Post {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
     private String content;
+    private LocalDateTime date;
+    private String image;
+    private boolean deleted;
+    private LocalDateTime modifiedDate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="author_id", nullable=false)
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
     private User author;
 
-
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "post")
     private List<Comment> comments;
 
-    private Date createTime;
-
-    @ManyToMany
-    @JoinTable(
-            name = "post_likes",
-            joinColumns = @JoinColumn(name = "post_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id")
-    )
-    private List<User> likeByUser;
-
-
-    private String imageCover; //sonra karar verilecek
-
+    @OneToMany(mappedBy = "post")
+    private List<Like> likes;
 }

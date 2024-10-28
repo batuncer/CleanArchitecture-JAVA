@@ -25,6 +25,12 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
+    private String name;
+
+    @Column(nullable = false)
+    private String surname;
+
     @Column(unique = true, nullable = false)
     private String username;
 
@@ -34,35 +40,31 @@ public class User {
     @Column(nullable = false)
     private String password;
 
+    @Column
+    private String bigpicture;
+
+    @Column(nullable = false)
+    private String about;
+
+    @Column(nullable = false)
+    private String country;
+
+    @Column(nullable = false)
+    private String city;
+
     @OneToMany(mappedBy = "author")
     private List<Post> posts;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    private Set<String> roles;
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles;
 
     @CreationTimestamp
     @Column(updatable = false, name = "created_at")
     private Date createdAt;
 
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles.stream()
-                .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
-                .collect(Collectors.toList());
-    }
 
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    public boolean isEnabled() {
-        return true;
-    }
 }

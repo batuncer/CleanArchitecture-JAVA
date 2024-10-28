@@ -5,7 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -13,22 +14,24 @@ import java.util.Date;
 @Entity
 @Table(name ="comments")
 public class Comment {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     private String content;
+    private LocalDateTime date;
+    private boolean deleted;
+    private LocalDateTime modifiedDate;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User author;
 
-    private Date createTime;
-
-    @OneToOne(fetch = FetchType.LAZY)
-    private User user;
-
-
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "post_id", nullable = false)
     private Post post;
+
+    @OneToMany(mappedBy = "comment")
+    private List<Like> likes;
 
 }
