@@ -2,8 +2,11 @@ package com.example.blog.adapters.controllers;
 
 
 import com.example.blog.application.dto.CreatePostRequest;
+import com.example.blog.application.dto.PostResponse;
 import com.example.blog.application.services.PostService;
 import com.example.blog.domain.entities.Post;
+import com.example.blog.domain.entities.User;
+import com.example.blog.domain.usecases.PostUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PostController {
 
+    private final PostUseCase postUseCase;
     private PostService postService;
 
 
@@ -26,7 +30,7 @@ public class PostController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Post> getPostById(@PathVariable Long id) {
-        Post post = postService.getPostById(id);
+        Post post = postService.getPostById(id).orElseThrow();
         return ResponseEntity.ok(post);
     }
 
@@ -41,4 +45,12 @@ public class PostController {
         postService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
+
+//    // Arkadaş postlarını tarih sırasına göre listeleme
+//    @GetMapping("/friends")
+//    public List<PostResponse> getFriendPostsByDate(@RequestParam User user,
+//                                                   @RequestParam int page,
+//                                                   @RequestParam int size) {
+//        return postUseCase.getFriendPostsByDate(user, page, size);
+//    }
 }

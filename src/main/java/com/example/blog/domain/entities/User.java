@@ -6,20 +6,19 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name ="users")
-public class User {
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,13 +42,16 @@ public class User {
     @Column
     private String bigpicture;
 
-    @Column(nullable = true)
+    @Column
+    private String profilePicture;
+
+    @Column
     private String about;
 
-    @Column(nullable = false)
+    @Column
     private String country;
 
-    @Column(nullable = false)
+    @Column
     private String city;
 
     @OneToMany(mappedBy = "author")
@@ -66,5 +68,17 @@ public class User {
     @Column(updatable = false, name = "created_at")
     private Date createdAt;
 
+    @ManyToMany
+    @JoinTable(
+            name = "friends",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "friend_id")
+    )
+    private List<User> friends;
 
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of();
+    }
 }

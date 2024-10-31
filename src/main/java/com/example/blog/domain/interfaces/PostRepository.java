@@ -1,6 +1,8 @@
 package com.example.blog.domain.interfaces;
 
 import com.example.blog.domain.entities.Post;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,5 +15,6 @@ public interface PostRepository {
     List<Post> findByAuthorId(Long authorId);
     Optional<Post> findById(Long postId);
     void deletePost(Long postId);
+
 
 }

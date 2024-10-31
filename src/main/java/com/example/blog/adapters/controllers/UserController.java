@@ -32,7 +32,7 @@ public class UserController {
 
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody SignupRequest request) {
-        userService.createUser(request.getUsername(), request.getEmail(), request.getPassword(), request.getRoles());
+        userService.createUser(request.getName(), request.getSurname(),request.getUsername(), request.getEmail(), request.getCountry(), request.getCity(), request.getPassword(), request.getRoles());
         return ResponseEntity.ok("User registered successfully!");
     }
 

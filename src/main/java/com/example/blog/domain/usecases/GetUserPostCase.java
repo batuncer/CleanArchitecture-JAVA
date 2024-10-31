@@ -2,15 +2,11 @@ package com.example.blog.domain.usecases;
 
 import com.example.blog.domain.entities.Post;
 import com.example.blog.domain.interfaces.PostRepository;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+@Component
 public class GetUserPostCase {
     private PostRepository postRepository;
 

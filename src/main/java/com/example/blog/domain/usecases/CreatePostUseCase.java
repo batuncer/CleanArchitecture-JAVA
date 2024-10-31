@@ -8,13 +8,12 @@ import com.example.blog.domain.interfaces.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+@Component
 public class CreatePostUseCase {
     private PostRepository postRepository;
     private UserRepository userRepository;
