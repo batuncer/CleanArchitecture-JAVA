@@ -22,9 +22,9 @@ import java.util.List;
 public class FriendController {
     private FriendRequestService friendRequestService;
 
-    private FriendshipService friendshipService;
+    private final FriendshipService friendshipService;
 
-    private UserService userService;
+    private final UserService userService;
 
     @PostMapping("/request")
     public ResponseEntity<FriendRequest> sendFriendRequest(
@@ -56,6 +56,7 @@ public class FriendController {
     }
     @GetMapping("/friends")
     public ResponseEntity<List<Friendship>> getFriends(@RequestParam Long userId) {
+
         User user = userService.findById(userId); // Kullanıcıyı bul
         List<Friendship> friendships = friendshipService.getFriendships(user);
         return ResponseEntity.ok(friendships);

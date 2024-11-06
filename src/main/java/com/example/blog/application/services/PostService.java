@@ -72,7 +72,7 @@ public class PostService {
             postRepository.deletePost(post.getId());  // Use injected postRepository
         }
 
-//    // Arkadaşların postlarını tarih sırasına göre getir
+//    // Arkadaşların postlarını tarih sırasına göre getir --  Blokladilarini gormemesi icin ekle
 //    public List<Post> getFriendPostsByDate(User user, int page, int size) {
 //        // Get friends of the user
 //        List<User> friends = friendshipService.getFriends(user)

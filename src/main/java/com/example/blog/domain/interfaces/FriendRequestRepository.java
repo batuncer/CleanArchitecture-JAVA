@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Optional;
 
-@Component
 public interface FriendRequestRepository {
 
     List<FriendRequest> findByReceiverAndStatus(User receiver, Status status);

@@ -5,17 +5,26 @@ import com.example.blog.domain.entities.FriendRequest;
 import com.example.blog.domain.entities.Status;
 import com.example.blog.domain.entities.User;
 import com.example.blog.domain.interfaces.FriendRequestRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class FriendRequestService {
 
-    private FriendRequestRepository friendRequestRepository;
+    private final BlockFriendService blockFriendService;
+    private final FriendRequestRepository friendRequestRepository;
+
+
 
     public FriendRequest sendFriendRequest(User sender, User receiver) {
+        if(blockFriendService.isBlocked(sender, receiver) || blockFriendService.isBlocked(receiver, sender)) {
+            throw new RuntimeException("Cannot send friend request - user is blocked.");
+
+        }
         FriendRequest request = new FriendRequest();
         request.setSender(sender);
         request.setReceiver(receiver);

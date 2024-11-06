@@ -15,18 +15,18 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CommentService {
 
-    private CommentRepository commentRepository;
-    private UserRepository userRepository;
-    private PostRepository postRepository;
+    private final CommentRepository commentRepository;
+    private final UserRepository userRepository;
+    private final PostRepository postRepository;
 
-    public Comment addComment(Long postId, Long userId, Comment comment) {
-        Optional<Post> post = postRepository.findById(postId);
-        Optional<User> user = userRepository.findById(userId);
-        if (post.isPresent() && user.isPresent()) {
-            comment.setPost(post.get());
-            comment.setAuthor(user.get());
-            return commentRepository.save(comment);
-        }
-        return new Comment();
-    }
+//    public Comment addComment(Long postId, Long userId, Comment comment) {
+//        Optional<Post> post = postRepository.findById(postId);
+//        Optional<User> user = userRepository.findById(userId);
+//        if (post.isPresent() && user.isPresent()) {
+//            comment.setPost(post.get());
+//            comment.setAuthor(user.get());
+//            return commentRepository.save(comment);
+//        }
+//        return new Comment();
+//    }
 }

@@ -4,6 +4,7 @@ import com.example.blog.domain.entities.Friendship;
 import com.example.blog.domain.entities.User;
 import com.example.blog.domain.interfaces.FriendshipRepository;
 
+import com.example.blog.infrastructure.persistence.JpaFriendshipRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FriendshipService {
 
-    private FriendshipRepository friendshipRepository;
+    private final JpaFriendshipRepository friendshipRepository;
 
     public void createFriendship(User userOne, User userTwo) {
         Friendship friendship1 = new Friendship();
