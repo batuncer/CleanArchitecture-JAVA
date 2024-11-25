@@ -11,6 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Service("userService")
@@ -50,20 +51,22 @@ public class UserService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username).orElse(null);
-        if (user == null) {
-            throw new UsernameNotFoundException("User not found with username: " + username);
-        }
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
 
         return org.springframework.security.core.userdetails.User.builder()
-                .username(user.getUsername())
+                .username(user.getEmail()) // Email burada username yerine geçer
                 .password(user.getPassword())
-                .roles(user.getRoles().toArray(new String[0])) // Roller burada ekleniyor
+                .roles(user.getRoles().toArray(new String[0]))
                 .build();
     }
 
     public User findById(Long receiverId) {
         return userRepository.findById(receiverId).orElse(null);
     }
+
+   public Optional<User> findByEmail(String email) {
+        return userRepository.findByEmail(email);
+   }
 }

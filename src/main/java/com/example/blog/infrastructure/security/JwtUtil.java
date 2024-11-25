@@ -18,7 +18,7 @@ public class JwtUtil {
     private String secretKey;
 
     // Token'dan username'i al
-    public String extractUsername(String token) {
+    public String extractEmail(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 
@@ -50,10 +50,9 @@ public class JwtUtil {
     }
 
     // JWT token oluştur
-    public String generateToken(String username) {
+    public String generateToken(String email) {
         Map<String, Object> claims = new HashMap<>();
-        // Gerekirse claims'e ek bilgiler ekleyin
-        return createToken(claims, username);
+        return createToken(claims, email);
     }
 
     private String createToken(Map<String, Object> claims, String subject) {
@@ -67,8 +66,8 @@ public class JwtUtil {
     }
 
     // Token'ı doğrula
-    public Boolean validateToken(String token, String username) {
-        final String extractedUsername = extractUsername(token);
-        return (extractedUsername.equals(username) && !isTokenExpired(token));
+    public Boolean validateToken(String token, String email) {
+        final String extractedName = extractEmail(token);
+        return (extractedName.equals(email) && !isTokenExpired(token));
     }
 }

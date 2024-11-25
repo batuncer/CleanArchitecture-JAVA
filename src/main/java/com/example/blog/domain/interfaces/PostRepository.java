@@ -14,7 +14,9 @@ public interface PostRepository {
     List<Post> findAll();
     List<Post> findByAuthorId(Long authorId);
     Optional<Post> findById(Long postId);
-    void deletePost(Long postId);
+    void deleteById(Long postId);
+    List<Post> findAllByAuthorId(Long authorId);
+
 
 
 }

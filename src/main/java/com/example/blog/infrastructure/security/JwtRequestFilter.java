@@ -45,12 +45,12 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         try {
             // JWT token'ı al ve kullanıcı adını çözümle
             final String jwt = authorizationHeader.substring(7);
-            final String username = jwtUtil.extractUsername(jwt);
+            final String email = jwtUtil.extractEmail(jwt);
 
             // Kullanıcı doğrulanmadıysa ve token geçerliyse, kullanıcıyı doğrula
-            if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                if (jwtUtil.validateToken(jwt, username)) {
-                    UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+            if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                if (jwtUtil.validateToken(jwt, email)) {
+                    UserDetails userDetails = userDetailsService.loadUserByUsername(email);
 
                     UsernamePasswordAuthenticationToken authenticationToken =
                             new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());

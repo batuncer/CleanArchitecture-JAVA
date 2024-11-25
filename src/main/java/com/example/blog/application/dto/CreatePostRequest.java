@@ -1,19 +1,16 @@
 package com.example.blog.application.dto;
 
 import jakarta.annotation.Nullable;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+@Getter
+@Setter
 public class CreatePostRequest {
 
+    private String authorName;
     private String content;
-    private Long userId;
     private String picture;
 
 }

@@ -13,5 +13,5 @@ import java.util.List;
 @NoArgsConstructor
 public class UserResponse {
 
-    private String username;
+    private String name;
 }

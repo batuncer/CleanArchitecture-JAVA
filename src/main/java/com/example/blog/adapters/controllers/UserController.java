@@ -40,10 +40,13 @@ public class UserController {
     public AuthResponse login(@RequestBody AuthRequest request) {
         try {
             Authentication authenticate = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
+                    new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
             );
-            String token = jwtUtil.generateToken(request.getUsername());
-            return new AuthResponse(token);
+            String token = jwtUtil.generateToken(request.getEmail());
+            String name = userService.findByEmail(request.getEmail())
+                    .orElseThrow(() -> new RuntimeException("User not found"))
+                    .getName();
+            return new AuthResponse(token, name);
         } catch (AuthenticationException e) {
             throw new RuntimeException("Invalid credentials");
         }
