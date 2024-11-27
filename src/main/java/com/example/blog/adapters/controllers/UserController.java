@@ -6,11 +6,14 @@ import com.example.blog.application.services.UserService;
 import com.example.blog.domain.entities.User;
 import com.example.blog.infrastructure.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -43,17 +46,30 @@ public class UserController {
                     new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
             );
             String token = jwtUtil.generateToken(request.getEmail());
-            String name = userService.findByEmail(request.getEmail())
-                    .orElseThrow(() -> new RuntimeException("User not found"))
-                    .getName();
-            return new AuthResponse(token, name);
+
+            return new AuthResponse(token);
         } catch (AuthenticationException e) {
             throw new RuntimeException("Invalid credentials");
         }
     }
 
     @GetMapping("/{username}")
-    public ResponseEntity<User> getUser(@PathVariable String username) {
-        return ResponseEntity.ok(userService.findByUsername(username));
+    public ResponseEntity<User> getUser(@AuthenticationPrincipal UserDetails userDetails) {
+        if (userDetails == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        String username = userDetails.getUsername();
+        User user = userService.findByUsername(username);
+        return ResponseEntity.ok(user);
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<User> getCurrentUser(@AuthenticationPrincipal UserDetails userDetails) {
+        if (userDetails == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        String username = userDetails.getUsername();
+        User user = userService.findByUsername(username);
+        return ResponseEntity.ok(user);
     }
 }

@@ -5,6 +5,7 @@ import com.example.blog.domain.entities.Post;
 
 import com.example.blog.domain.interfaces.PostRepository;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.Optional;
 @Service
 public class PostService {
 
+        @Autowired
         private final PostRepository postRepository;
 
         public PostService(PostRepository postRepository) {

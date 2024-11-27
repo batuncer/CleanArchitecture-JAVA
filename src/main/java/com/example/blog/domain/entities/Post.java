@@ -1,5 +1,6 @@
 package com.example.blog.domain.entities;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -21,6 +22,7 @@ public class Post {
     private String content;
 
     private LocalDateTime date;
+    @Nullable
     private String image;
     private boolean deleted;
     private LocalDateTime modifiedDate;

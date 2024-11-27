@@ -7,12 +7,14 @@ import com.example.blog.application.services.PostService;
 import com.example.blog.application.services.UserService;
 import com.example.blog.domain.entities.Post;
 import com.example.blog.domain.entities.User;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("api/posts")
@@ -30,18 +32,23 @@ public class PostController {
     }
 
     @PostMapping
-    public ResponseEntity<PostResponse> createPost(@RequestBody CreatePostRequest postRequest, @RequestParam Long userId) {
-        User user = userService.findById(userId);
+    public ResponseEntity<PostResponse> createPost(@RequestBody CreatePostRequest postRequest, @AuthenticationPrincipal UserDetails userDetails) {
+        if (userDetails == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        String username = userDetails.getUsername();
+        User user = userService.findByUsername(username);
+
         Post post = new Post();
         post.setContent(postRequest.getContent());
-        post.setImage(postRequest.getPicture());  // Handle image (base64 string) accordingly
+        post.setImage(postRequest.getPicture());
         post.setAuthor(user);
         post.setDate(LocalDateTime.now());
-
         Post savedPost = postService.savePost(post);
-        PostResponse response = postMapper.toPostResponse(savedPost);  // Ensure Post is wrapped in Optional
+        PostResponse response = postMapper.toPostResponse(savedPost);
         return ResponseEntity.ok(response);
     }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<PostResponse> getPostById(@PathVariable Long id) {

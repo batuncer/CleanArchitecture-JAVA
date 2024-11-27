@@ -1,5 +1,6 @@
 package com.example.blog.domain.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -55,6 +56,7 @@ public class User implements UserDetails {
     private String city;
 
     @OneToMany(mappedBy = "author")
+    @JsonIgnore
     private List<Post> posts;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
