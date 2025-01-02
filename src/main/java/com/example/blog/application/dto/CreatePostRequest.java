@@ -11,7 +11,7 @@ public class CreatePostRequest {
 
     private String content;
     @Nullable
-    private String picture;
+    private String image;
 
 
 

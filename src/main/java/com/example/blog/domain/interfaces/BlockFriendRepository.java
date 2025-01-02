@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface BlockFriendRepository {
 
-    boolean existsByBlockerAndBlocked(User blocker, User blocked);
+    boolean existsByBlockerAndBlocked(Long blocker_id, Long blocked_id);
     BlockFriend findByBlockerAndBlocked(User blocker, User blocked);
     List<BlockFriend> findByBlocker(User blocker);
     BlockFriend save(BlockFriend blockFriend);

@@ -10,6 +10,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class FriendRequestDto {
 
-    private Long senderId;  // İsteği gönderen kullanıcının kimliği
-    private Long receiverId; // İsteği alan kullanıcının kimliği
+    private Long receiverId;
 }

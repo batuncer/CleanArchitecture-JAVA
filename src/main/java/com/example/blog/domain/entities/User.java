@@ -25,10 +25,10 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column( nullable = false)
+    @Column
     private String name;
 
-    @Column( nullable = false)
+    @Column
     private String surname;
 
     @Column(unique = true, nullable = false)
@@ -49,7 +49,7 @@ public class User implements UserDetails {
     @Column
     private String about;
 
-    @Column
+    @Column(nullable = false)
     private String country;
 
     @Column

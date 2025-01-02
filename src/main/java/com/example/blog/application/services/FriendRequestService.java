@@ -17,11 +17,15 @@ public class FriendRequestService {
 
     private final BlockFriendService blockFriendService;
     private final FriendRequestRepository friendRequestRepository;
+    private final UserService userService;
+    private final FriendshipService friendshipService;
 
 
+    public FriendRequest sendFriendRequest(Long senderId, Long receiverId) {
 
-    public FriendRequest sendFriendRequest(User sender, User receiver) {
-        if(blockFriendService.isBlocked(sender, receiver) || blockFriendService.isBlocked(receiver, sender)) {
+        User sender = userService.findById(senderId);
+        User receiver = userService.findById(receiverId);
+        if(blockFriendService.isBlocked(senderId, receiverId) || blockFriendService.isBlocked(receiverId, senderId)) {
             throw new RuntimeException("Cannot send friend request - user is blocked.");
 
         }
@@ -36,7 +40,10 @@ public class FriendRequestService {
     public FriendRequest acceptFriendRequest(Long requestId) {
         FriendRequest request = friendRequestRepository.findById(requestId).orElseThrow();
         request.setStatus(Status.ACCEPTED);
-        return friendRequestRepository.save(request);
+        friendRequestRepository.save(request);
+        friendshipService.createFriendship(request.getSender(), request.getReceiver());
+
+        return request;
     }
 
     public FriendRequest rejectFriendRequest(Long requestId) {
@@ -47,5 +54,9 @@ public class FriendRequestService {
 
     public List<FriendRequest> getPendingRequests(User user) {
         return friendRequestRepository.findByReceiverAndStatus(user, Status.PENDING);
+    }
+
+    public List<FriendRequest> getAcceptedRequests(User user) {
+        return friendRequestRepository.findByReceiverAndStatus(user, Status.ACCEPTED);
     }
 }

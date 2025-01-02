@@ -1,5 +1,6 @@
 package com.example.blog.application.services;
 
+import com.example.blog.application.dto.UserResponse;
 import com.example.blog.domain.entities.User;
 import com.example.blog.domain.interfaces.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -33,21 +35,23 @@ public class UserService implements UserDetailsService {
         return userRepository.findAll();
     }
 
-    public void createUser(String name, String surname, String username, String email, String country,String city, String password, Set<String> roles) {
+    public void createUser( String username, String email, String country, String password, Set<String> roles) {
         User user = new User();
         String hashedPassword = passwordEncoder.encode(password);
-        user.setName(name);
-        user.setSurname(surname);
+
         user.setUsername(username);
         user.setEmail(email);
         user.setCountry(country);
-        user.setCity(city);
+
         user.setPassword(hashedPassword);
+
         userRepository.save(user);
     }
 
+
     public User findByUsername(String username) {
-        return userRepository.findByUsername(username).orElse(null);
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found with username: " + username));
     }
 
     @Override
@@ -69,4 +73,19 @@ public class UserService implements UserDetailsService {
    public Optional<User> findByEmail(String email) {
         return userRepository.findByEmail(email);
    }
+
+    public void setBigPicture(String username, String bigPictureUrl) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
+        user.setBigpicture(bigPictureUrl);
+        userRepository.save(user);
+    }
+
+    public void setProfilePicture(String username, String profilePictureUrl) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
+        user.setProfilePicture(profilePictureUrl);
+        userRepository.save(user);
+    }
+
 }

@@ -2,7 +2,9 @@ package com.example.blog.domain.interfaces;
 
 
 
+import com.example.blog.application.dto.FriendRequestResponse;
 import com.example.blog.domain.entities.FriendRequest;
+import com.example.blog.domain.entities.Friendship;
 import com.example.blog.domain.entities.Status;
 import com.example.blog.domain.entities.User;
 import org.springframework.stereotype.Component;

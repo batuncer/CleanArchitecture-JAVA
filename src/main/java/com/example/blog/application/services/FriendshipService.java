@@ -2,7 +2,6 @@ package com.example.blog.application.services;
 
 import com.example.blog.domain.entities.Friendship;
 import com.example.blog.domain.entities.User;
-import com.example.blog.domain.interfaces.FriendshipRepository;
 
 import com.example.blog.infrastructure.persistence.JpaFriendshipRepository;
 import lombok.RequiredArgsConstructor;

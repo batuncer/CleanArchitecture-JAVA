@@ -32,7 +32,7 @@ public class BlockFriendService {
         return blockFriendRepository.findByBlocker(blocker);
     }
 
-    public boolean isBlocked(User blocker, User blocked) {
+    public boolean isBlocked(Long blocker, Long blocked) {
         return blockFriendRepository.existsByBlockerAndBlocked(blocker, blocked);
     }
 }

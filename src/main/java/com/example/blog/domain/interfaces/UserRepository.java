@@ -1,5 +1,6 @@
 package com.example.blog.domain.interfaces;
 
+import com.example.blog.application.dto.UserResponse;
 import com.example.blog.domain.entities.User;
 
 import java.util.List;
@@ -12,6 +13,5 @@ public interface UserRepository {
     Optional<User> findById(Long id);
     boolean existsByEmail(String email);
     List<User> findAll();
-
     Optional<User> findByEmail(String email);
 }
